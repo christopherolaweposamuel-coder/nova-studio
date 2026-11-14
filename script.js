@@ -8,28 +8,92 @@ const contactForm = document.getElementById("contact-form");
 // Select the feedback message
 const formFeedback = document.getElementById("form-feedback");
 
+// Select the submit button
+const submitButton = document.getElementById("submit-button");
 
-// CONTACT FORM FUNCTIONALITY
 
-contactForm.addEventListener("submit", function(event) {
+// CONTACT FORM SUBMISSION
 
-    // Prevent the browser from reloading the page
+contactForm.addEventListener("submit", async function(event) {
+
+    // Prevent the normal page reload
     event.preventDefault();
 
-    // Get the values entered by the visitor
-    const visitorName = document.getElementById("name").value.trim();
+    // Prevent multiple submissions while sending
+    submitButton.disabled = true;
 
-    // Display a demonstration message
-    formFeedback.textContent =
-        `Thank you, ${visitorName}! Your form works in this demo. A real message has not been sent yet.`;
+    // Change button text
+    submitButton.textContent = "Sending...";
 
-    // Clear the form
-    contactForm.reset();
+    // Clear previous feedback
+    formFeedback.textContent = "";
+    formFeedback.className = "form-feedback";
+
+    // Collect the form information
+    const formData = new FormData(contactForm);
+
+    try {
+
+        // Send the information to Formspree
+        const response = await fetch(contactForm.action, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+
+        // Read the server response
+        const result = await response.json();
+
+        // Check whether the submission succeeded
+        if (response.ok) {
+
+            formFeedback.textContent =
+                "Thank you! Your message has been submitted successfully.";
+
+            formFeedback.classList.add("success-message");
+
+            // Clear the form after successful submission
+            contactForm.reset();
+
+        } else {
+
+            // Display Formspree's validation message if available
+            const errorMessage =
+                result.errors?.map(error => error.message).join(", ");
+
+            formFeedback.textContent =
+                errorMessage ||
+                "Sorry, your message could not be submitted. Please try again.";
+
+            formFeedback.classList.add("error-message");
+
+        }
+
+    } catch (error) {
+
+        // Handle connection or network errors
+        formFeedback.textContent =
+            "Connection error. Please check your internet and try again.";
+
+        formFeedback.classList.add("error-message");
+
+        console.error("Form submission error:", error);
+
+    } finally {
+
+        // Restore the button
+        submitButton.disabled = false;
+
+        submitButton.textContent = "Send Message ↗";
+
+    }
 
 });
 
 
-// CONSOLE MESSAGE
+// WEBSITE CONSOLE MESSAGE
 
 console.log("Welcome to Nova Studio!");
 

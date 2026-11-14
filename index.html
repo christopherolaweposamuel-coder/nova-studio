@@ -310,7 +310,14 @@
             </div>
 
 
-            <form id="contact-form" class="contact-form">
+            <!-- FORMSPREE CONTACT FORM -->
+
+            <form
+                id="contact-form"
+                class="contact-form"
+                action="https://formspree.io/f/moqyeop"
+                method="POST"
+            >
 
                 <div class="form-group">
 
@@ -321,6 +328,7 @@
                         id="name"
                         name="name"
                         placeholder="Enter your name"
+                        autocomplete="name"
                         required
                     >
 
@@ -336,6 +344,7 @@
                         id="email"
                         name="email"
                         placeholder="Enter your email"
+                        autocomplete="email"
                         required
                     >
 
@@ -357,12 +366,20 @@
                 </div>
 
 
-                <button type="submit" class="submit-button">
+                <button
+                    type="submit"
+                    id="submit-button"
+                    class="submit-button"
+                >
                     Send Message ↗
                 </button>
 
-                <p id="form-feedback" class="form-feedback"
-                   aria-live="polite"></p>
+                <p
+                    id="form-feedback"
+                    class="form-feedback"
+                    role="status"
+                    aria-live="polite"
+                ></p>
 
             </form>
 
@@ -425,8 +442,6 @@
 
     </footer>
 
-
-    <!-- JAVASCRIPT -->
 
     <script src="script.js"></script>
 

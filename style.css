@@ -584,11 +584,24 @@ nav ul li a:hover {
     transform: translateY(-2px);
 }
 
+.submit-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .form-feedback {
     margin-top: 15px;
     font-size: 14px;
     line-height: 1.6;
+}
+
+.success-message {
     color: #27845b;
+}
+
+.error-message {
+    color: #c03950;
 }
 
 
